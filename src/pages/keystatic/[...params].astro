@@ -1,6 +1,17 @@
 ---
 export const prerender = false;
-import Keystatic from "@keystatic/astro/ui";
+// On importe Keystatic depuis /component et non /ui pour les versions récentes
+import Keystatic from "@keystatic/astro";
 ---
 
-<Keystatic />
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administration - SEHC</title>
+  </head>
+  <body>
+    <Keystatic client:only="react" />
+  </body>
+</html>

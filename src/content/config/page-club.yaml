@@ -1,0 +1,127 @@
+entete_titre: Le club et son organisation
+entete_description: >-
+  Introduction au Club Sud Estuaire Handball, mettant en avant son histoire et
+  son engagement envers la communauté.
+apropos_titre: Notre Histoire
+apropos_contenu: >-
+  En mai 1995, création de l’Association Sportive Brévinoise de Handball (ASBH).
+  Le club compte 50 licenciés dont 30 jeunes. La couleur choisie est le ROUGE.
+
+
+  Saison 1999-2000, 29 licenciés, peu de bénévoles et menace de fermeture.
+
+
+  Juin 2000, reprise de l'Association Sportive Brevinoise de Handball (ASBH) en
+  juin 2000, sous l'impulsion d'une nouvelle équipe dirigeante. Création d'une
+  nouvelle entité intercommunale le 18 juillet 2000, le Sud Estuaire Handball
+  Club (SEHC) est né. Le club est réparti sur 6 communes (ST BREVIN-LES-PINS,
+  CORSEPT, PAIMBOEUF, ST VIAUD, ST PERE-EN-RETZ et FROSSAY). Le jaune et le noir
+  sont les nouvelles couleurs du SEHC (Couleurs du Pays de Retz), 77 signatures
+  dans le nouveau club.
+
+
+  De 2000 à 2009, progression des effectifs jusqu'à 120 licenciés, le niveau des
+  équipes augmente (D1 pour les séniors masculins) en partie grâce à l'apport
+  d'un salarié Brevet d'Etat qui assure les séances accompagnés de 3 emplois
+  jeunes. En 2008 des difficultés financières obligent le club à se séparer de
+  ses salariés, ce qui entrainera diverses difficultés notamment sur le plan
+  sportif.
+
+
+  Juin 2009, renouvellement complet du conseil d'administration et du bureau
+  dans le but de redonner un élan au club. Les effectifs sont en baisse (- de
+  100 licenciés) mais l'objectif est de rebâtir le club sur les jeunes qui
+  seront l'avenir.
+
+
+  De 2010 à 2016, Progression constante du nombre de licenciés qui atteindra les
+  200, ce qui augmentera le nombre d'équipes en championnat, toutes les
+  catégories sont couvertes. En 2014 Le club décide de relancer un tournoi de
+  Sandball courant juin sur le sable de St Brevin.
+
+
+  De 2017 à 2021, Le club progresse en termes de licenciés pour atteindre le
+  chiffre record de 230 adhérents en 2021. Il faut noter qu'en 2016-2017 les
+  séniors masculins ont effectué un beau parcours en Coupe de France
+  (élimination en 16ème de Finale) ce qui a permis un coup de projecteur sur le
+  club.
+
+
+  De 2022 à aujourd'hui, le club reste stable (adhérents et équipes). Il peut
+  accueillir tous les handballeurs à partir de 3 ans. Septembre 2022 marque
+  aussi une nouveauté avec l'arrivée d'un salarié qui intervient notamment sur
+  les entrainements des équipes jeunes.
+conseil_titre: Le Conseil d'Administration
+bureau_membres:
+  - personne: stephanie-alaux-bardon-frederic-jouan
+    fonction: Co-Président
+    email: president@sehc.fr
+  - personne: katia-jouan
+    fonction: Trésorière
+    email: tresorier@sehc.fr
+  - personne: marylene-rousteau
+    fonction: Trésorière adjointe
+    email: tresoriere-adjointe@sehc.fr
+  - personne: jeremy-pitard
+    fonction: Secrétaire
+    email: jeremy@sehc.fr
+  - personne: manuel-chauvel
+    fonction: Secrétaire adjoint
+    email: contact@sehc.fr
+conseil_membres:
+  - melaine-lecharbonnier
+  - marine-jantzen
+  - karine-hervy
+  - vianney-adams
+  - josepha-andre
+  - laure-david
+  - fabienne-guiot
+  - celine-latessa
+  - benjamin-jouan
+arbitres_titre: Nos Arbitres
+arbitres:
+  - personne: dominique-tresor
+    grade: Arbitre départementale
+commissions:
+  - nom: Commission sportive
+    description: |-
+      Gestion du matériel, créneaux et logistique des entraînements et matchs
+      Organisation et suivi des plannings de matchs et tâches
+      Formation et suivi des arbitres
+      Suivi des besoins des équipes et des labels fédéraux
+    email: technique@sehc.fr
+    icone: whistle
+  - nom: Commission partenaires
+    description: |-
+      Recherche et fidélisation des partenaires
+      Mise en place des contreparties (visibilité, invitations...)
+      Création de liens durables avec les sponsors
+    email: partenaires@sehc.fr
+    icone: store
+  - nom: Commission communication
+    description: |-
+      Animation des réseaux sociaux, site web et visuels
+      Communication interne avec les licenciés et les familles
+      Relations presse et valorisation des actions du club
+    email: communication@sehc.fr
+    icone: communication
+  - nom: Commission discipline
+    description: |-
+      Application du règlement intérieur
+      Gestion des conflits ou comportements inadaptés
+      Suivi des sanctions internes ou fédérales
+    email: president@sehc.fr
+    icone: discipline
+  - nom: Commission animations
+    description: >-
+      Organisation des événements festifs (Loto, Beach Handball, Arbre de
+      Noël...)
+
+      Gestion de la buvette (approvisionnement, service, organisation...)
+    email: animations@sehc.fr
+    icone: beer
+boutique_titre: Notre Boutique
+boutique_description: >-
+  Section dédiée à la boutique en ligne où les joueurs et supporteurs peuvent
+  acheter des équipements et des vêtements du club.
+boutique_lien: "#"

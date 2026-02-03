@@ -1,0 +1,191 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const equipes = await getCollection('equipes');
+  return equipes.map(equipe => ({
+    params: { slug: equipe.id },
+    props: { equipe },
+  }));
+}
+
+const { equipe } = Astro.props;
+const { data, render } = equipe;
+//const { Content } = await render();
+
+// Get all salles for training location names
+const salles = await getCollection('salles');
+
+// Get all personnes to resolve coach references
+const personnes = await getCollection('personnes');
+
+// Mapper jour de semaine vers ordre
+const jourOrder: Record<string, number> = {
+  lundi: 1, mardi: 2, mercredi: 3, jeudi: 4,
+  vendredi: 5, samedi: 6, dimanche: 7
+};
+---
+
+<Layout title={data.nom}>
+
+          <!-- Back Button -->
+          <div class=" ml-6 mb-12 py-8 border-b border-gray-200">
+            <a href="/equipes" class="inline-flex items-center gap-2 text-yellow-600 hover:text-yellow-800 font-medium transition-colors">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Retour aux équipes
+            </a>
+          </div>
+        </div>
+      </div>
+  <article class="bg-white">
+    <!-- Hero Section: Team Photo - Landscape Format -->
+    {data.photo_equipe && (
+      <div class="relative w-full">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 py-12">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+            <img
+              src={data.photo_equipe}
+              alt={data.nom}
+              class="w-full aspect-[16/9] object-cover"
+            />
+            <!-- Overlay with team name -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+              <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                <p class="text-sm font-medium text-yellow-400 mb-2 uppercase tracking-wide">
+                  {data.niveau}
+                </p>
+                <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+                  {data.nom}
+                </h1>
+                {data.lien_classement && (
+                  <a
+                    href={data.lien_classement}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-lg transition-colors"
+                  >
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Voir le classement
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- Training Info Section -->
+    {(data.entrainements && data.entrainements.length > 0) || data.planning_texte ? (
+      <section class="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="mx-auto max-w-2xl text-center mb-12">
+            <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Entraînements
+            </h2>
+          </div>
+
+          {data.entrainements && data.entrainements.length > 0 ? (
+            <div class="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {data.entrainements
+                .sort((a: any, b: any) => jourOrder[a.jour] - jourOrder[b.jour])
+                .map((entrainement: any) => {
+                  const salle = salles.find((s: any) => s.slug === entrainement.salle);
+                  return (
+                    <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-yellow-400/20 hover:border-yellow-400 transition-colors">
+                      <div class="flex items-center gap-2 mb-4">
+                        <svg class="h-5 w-5 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <h3 class="text-xl font-bold text-gray-900 capitalize">
+                          {entrainement.jour}
+                        </h3>
+                      </div>
+                      <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center gap-2">
+                          <svg class="h-4 w-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span class="font-medium">{entrainement.heure_debut} - {entrainement.heure_fin}</span>
+                        </p>
+                        {salle && (
+                          <p class="flex items-center gap-2">
+                            <svg class="h-4 w-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>{salle.data.nom}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              }
+            </div>
+          ) : data.planning_texte ? (
+            <div class="mx-auto max-w-2xl bg-white rounded-2xl shadow-lg p-8 border-2 border-yellow-400/20">
+              <div class="text-gray-900 whitespace-pre-line text-center">{data.planning_texte}</div>
+            </div>
+          ) : null}
+        </div>
+      </section>
+    ) : null}
+
+    <!-- Coaches Section -->
+    {data.coaches && data.coaches.length > 0 && (
+      <section class="py-24 sm:py-32 bg-gray-50">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="mx-auto max-w-2xl text-center mb-16">
+            <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              L'Encadrement
+            </h2>
+            <p class="mt-4 text-lg text-gray-600">
+              Les entraîneurs qui accompagnent l'équipe
+            </p>
+          </div>
+
+          <ul class="mx-auto grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+            {data.coaches.map((coach: any) => {
+              const personne = personnes.find((p: any) => p.id === coach.personne);
+              if (!personne) return null;
+              return (
+                <li>
+                  <div class="text-center">
+                    {personne.data.photo ? (
+                      <img
+                        class="mx-auto h-32 w-32 rounded-full object-cover ring-4 ring-yellow-400"
+                        src={personne.data.photo}
+                        alt={personne.data.nom}
+                      />
+                    ) : (
+                      <div class="mx-auto h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-yellow-400">
+                        <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    )}
+                    <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">
+                      {personne.data.nom}
+                    </h3>
+                    <p class="text-sm leading-6 text-gray-600">
+                      {coach.role}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- Description Content -->
+
+  </article>
+</Layout>

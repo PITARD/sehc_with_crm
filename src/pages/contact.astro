@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const globalConfig = await reader.singletons.global_config.read();
+
+const clubNom = globalConfig?.club_nom || 'Sud Estuaire Handball Club';
+const clubEmail = globalConfig?.club_email || '';
+const clubTelephone = globalConfig?.club_telephone || '';
+const clubAdresse = globalConfig?.club_adresse || '';
+---
+
+<Layout title="Contact">
+  <div class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mb-8">
+          Nous contacter
+        </h1>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">{clubNom}</h2>
+          </div>
+
+          {clubAdresse && (
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Adresse</h3>
+              <p class="text-gray-600 whitespace-pre-line">{clubAdresse}</p>
+            </div>
+          )}
+
+          {clubEmail && (
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Email</h3>
+              <a href={`mailto:${clubEmail}`} class="text-yellow-600 hover:text-yellow-800">
+                {clubEmail}
+              </a>
+            </div>
+          )}
+
+          {clubTelephone && (
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Téléphone</h3>
+              <a href={`tel:${clubTelephone}`} class="text-yellow-600 hover:text-yellow-800">
+                {clubTelephone}
+              </a>
+            </div>
+          )}
+
+          <div class="mt-12 pt-8 border-t">
+            <p class="text-sm text-gray-600">
+              Pour modifier ces informations, rendez-vous sur l'<a href="/keystatic" class="text-yellow-600 hover:text-yellow-800 underline">interface Keystatic</a> et éditez la configuration globale.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

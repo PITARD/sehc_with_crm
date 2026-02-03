@@ -1,5 +1,15 @@
 ---
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../../../keystatic.config';
 
+// Lire le contenu de la page d'accueil depuis Keystatic
+const reader = createReader(process.cwd(), keystaticConfig);
+const homeContent = await reader.singletons.home_content.read();
+
+const testimonialTexte = homeContent?.testimonial_texte || 'Le club Sud Estuaire Handball Club, ce sont des joueuses et joueurs d\'exception...';
+const testimonialAuteur = homeContent?.testimonial_auteur || 'Jean-Yves PIBERNE';
+const testimonialRole = homeContent?.testimonial_role || 'Président du club';
+const testimonialPhoto = homeContent?.testimonial_photo || 'https://sehc.asso-web.com/uploaded/dsc-4758-jpg(1).jpg';
 ---
 
 <div class="bg-gradient-to-r bg-white pt-16 lg:py-24">
@@ -13,8 +23,8 @@
             class="aspect-w-10 aspect-h-6 rounded-xl shadow-xl overflow-hidden sm:aspect-w-16 sm:aspect-h-7 lg:aspect-none lg:h-full">
             <img
               class="object-cover mt-8 lg:mt-0 rounded-xl lg:h-full lg:w-full"
-              src="https://sehc.asso-web.com/uploaded/dsc-4758-jpg(1).jpg"
-              alt=""
+              src={testimonialPhoto}
+              alt={testimonialAuteur}
             />
           </div>
         </div>
@@ -34,17 +44,13 @@
                 ></path>
               </svg>
               <p class="mt-6 text-2xl font-medium text-black">
-                Le club Sud Estuaire Handball Club, ce sont des joueuses et
-                joueurs d’exception que vous encouragerez toute la saison, mais
-                ce sont surtout des bénévoles qui travaillent au quotidien que
-                je tiens vraiment à remercier ici pour leur engagement et leur
-                implication.
+                {testimonialTexte}
               </p>
             </div>
             <footer class="mt-6">
-              <p class="text-base font-medium text-black">Jean-Yves PIBERNE</p>
+              <p class="text-base font-medium text-black">{testimonialAuteur}</p>
               <p class="text-base font-medium text-yellow-400">
-                Président du club
+                {testimonialRole}
               </p>
             </footer>
           </blockquote>

@@ -1,0 +1,320 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+import { getCollection } from 'astro:content';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const pageInfos = await reader.singletons.page_infos_sportive.read();
+
+// Récupérer les équipes avec leurs horaires
+const equipes = await getCollection('equipes');
+const equipesSorted = equipes.sort((a: any, b: any) => {
+  const niveauOrder = ['senior', 'junior', 'cadet', 'minime', 'benjamin', 'poussin'];
+  return niveauOrder.indexOf(a.data.niveau) - niveauOrder.indexOf(b.data.niveau);
+});
+
+// Récupérer les salles
+const salles = await getCollection('salles');
+console.log(salles.length);
+
+const sallesSorted = salles.sort((a: any, b: any) => (a.data.ordre || 0) - (b.data.ordre || 0));
+
+// Mapper jour de semaine vers ordre
+const jourOrder: Record<string, number> = {
+  lundi: 1, mardi: 2, mercredi: 3, jeudi: 4,
+  vendredi: 5, samedi: 6, dimanche: 7
+};
+---
+
+<Layout title={pageInfos?.entete_titre || 'Informations Sportives'}>
+  <div class="bg-white">
+    <!-- Tabs de navigation -->
+    <div class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <nav class="flex space-x-8 overflow-x-auto" aria-label="Sections">
+          <a href="#planning" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+            Planning Matchs & Tâches
+          </a>
+          <a href="#entrainements" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+            Horaires Entraînements
+          </a>
+          <a href="#salles" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+            Nos Gymnases
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Section 1: Planning Matchs & Tâches -->
+    <section id="planning" class="py-24 sm:py-32 bg-yellow-50 scroll-mt-16">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+            {pageInfos?.section_planning_titre}
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Planning des Matchs -->
+          {pageInfos?.planning_matchs_image && (
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div class="bg-yellow-600 px-6 py-4">
+                <h3 class="text-xl font-bold text-white">Planning des Matchs</h3>
+              </div>
+              <div class="p-4">
+                <a href={pageInfos.planning_matchs_image} target="_blank" class="block">
+                  <img
+                    src={pageInfos.planning_matchs_image}
+                    alt="Planning des matchs"
+                    class="w-full h-auto rounded hover:opacity-90 transition-opacity cursor-pointer"
+                  />
+                </a>
+                <p class="text-sm text-gray-500 mt-2 text-center">
+                  Cliquez pour agrandir
+                </p>
+              </div>
+            </div>
+          )}
+
+          <!-- Planning des Tâches -->
+          {pageInfos?.planning_taches_image && (
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div class="bg-yellow-600 px-6 py-4">
+                <h3 class="text-xl font-bold text-white">Planning des Tâches</h3>
+              </div>
+              <div class="p-4">
+                <a href={pageInfos.planning_taches_image} target="_blank" class="block">
+                  <img
+                    src={pageInfos.planning_taches_image}
+                    alt="Planning des tâches"
+                    class="w-full h-auto rounded hover:opacity-90 transition-opacity cursor-pointer"
+                  />
+                </a>
+                <p class="text-sm text-gray-500 mt-2 text-center">
+                  Cliquez pour agrandir
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {!pageInfos?.planning_matchs_image && !pageInfos?.planning_taches_image && (
+          <div class="text-center text-gray-600 py-12">
+            <p class="mb-4">Aucun planning ajouté pour le moment.</p>
+            <p>Ajoutez des plannings via l'<a href="/keystatic" class="text-yellow-600 hover:text-yellow-800 underline">interface Keystatic</a></p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Section 2: Horaires Entraînements -->
+    <section id="entrainements" class="py-24 sm:py-32 bg-white scroll-mt-16">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+            {pageInfos?.section_entrainements_titre}
+          </h2>
+        </div>
+
+        {equipesSorted.length > 0 ? (
+          <div class="space-y-8">
+            {equipesSorted.map((equipe: any) => (
+              <div class="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+                <!-- En-tête équipe -->
+                <div class="bg-yellow-400 px-6 py-4 flex items-center justify-between">
+                  <div>
+                    <h3 class="text-xl font-bold text-gray-900">{equipe.data.nom}</h3>
+                    {equipe.data.coach && (
+                      <p class="text-sm text-gray-700">
+                        Coach: {equipe.data.coach}
+                      </p>
+                    )}
+                  </div>
+                  <span class="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-900 capitalize">
+                    {equipe.data.niveau}
+                  </span>
+                </div>
+
+                <!-- Horaires d'entraînement -->
+                <div class="p-6">
+                  {equipe.data.entrainements && equipe.data.entrainements.length > 0 ? (
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {equipe.data.entrainements
+                        .sort((a: any, b: any) => jourOrder[a.jour] - jourOrder[b.jour])
+                        .map((entrainement: any) => {
+                          const salle = salles.find((s: any) => s.id === entrainement.salle);
+                          return (
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                              <div class="flex items-center gap-2 mb-2">
+                                <svg class="h-5 w-5 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span class="font-bold text-gray-900 capitalize">
+                                  {entrainement.jour}
+                                </span>
+                              </div>
+                              <p class="text-sm text-gray-600 mb-2">
+                                {entrainement.heure_debut} - {entrainement.heure_fin}
+                              </p>
+                              {salle && (
+                                <p class="text-sm text-gray-500 flex items-center gap-1">
+                                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  </svg>
+                                  {salle.data.nom}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })
+                      }
+                    </div>
+                  ) : equipe.data.planning_texte ? (
+                    <!-- Fallback pour anciennes données texte -->
+                    <p class="text-gray-600 whitespace-pre-line">{equipe.data.planning_texte}</p>
+                  ) : (
+                    <p class="text-gray-500 italic">Aucun horaire d'entraînement défini</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center text-gray-600">
+            <p>Aucune équipe ajoutée pour le moment.</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Section 3: Salles/Gymnases -->
+    <section id="salles" class="py-24 sm:py-32 bg-gray-50 scroll-mt-16">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+            {pageInfos?.section_salles_titre}
+          </h2>
+        </div>
+
+        {sallesSorted.length > 0 ? (
+          <div class="space-y-12">
+            {sallesSorted.map((salle: any) => (
+              <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                  <!-- Image et infos -->
+                  <div class="p-8">
+                    {salle.data.photo && (
+                      <img
+                        src={salle.data.photo}
+                        alt={salle.data.nom}
+                        class="w-full h-64 object-cover rounded-lg mb-6"
+                      />
+                    )}
+
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                      {salle.data.nom}
+                    </h3>
+
+                    {salle.data.type && (
+                      <span class="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-gray-900 mb-4 capitalize">
+                        {salle.data.type.replace('_', ' ')}
+                      </span>
+                    )}
+
+                    {salle.data.adresse && (
+                      <div class="flex items-start gap-2 mb-4">
+                        <svg class="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <p class="text-gray-600 whitespace-pre-line">{salle.data.adresse}</p>
+                      </div>
+                    )}
+
+                    {salle.data.notice_url && (
+                      <a
+                        href={salle.data.notice_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 rounded-md bg-yellow-600 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-500 transition-colors"
+                      >
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        Voir la notice de table
+                      </a>
+                    )}
+                  </div>
+
+                  <!-- Carte -->
+                  <div class="relative h-96 lg:h-full min-h-[400px]">
+                    {salle.data.latitude && salle.data.longitude ? (
+                      <div id={`map-${salle.id}`} class="w-full h-full" data-lat={salle.data.latitude} data-lng={salle.data.longitude} data-name={salle.data.nom}></div>
+                    ) : (
+                      <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <p class="text-gray-500">Carte non disponible</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center text-gray-600 py-12">
+            <p class="mb-4">Aucune salle ajoutée pour le moment.</p>
+            <p>Ajoutez des salles via l'<a href="/keystatic" class="text-yellow-600 hover:text-yellow-800 underline">interface Keystatic</a></p>
+          </div>
+        )}
+      </div>
+    </section>
+  </div>
+
+  <!-- Script pour smooth scroll -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href') as string);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+
+  <!-- Leaflet Map Integration -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script is:inline>
+    // Initialize maps after page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const mapElements = document.querySelectorAll('[id^="map-"]');
+
+      mapElements.forEach(function(mapElement) {
+        const lat = parseFloat(mapElement.dataset.lat);
+        const lng = parseFloat(mapElement.dataset.lng);
+        const name = mapElement.dataset.name;
+
+        if (lat && lng) {
+          const map = L.map(mapElement.id).setView([lat, lng], 15);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+          L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup(`<b>${name}</b>`)
+            .openPopup();
+        }
+      });
+    });
+  </script>
+</Layout>

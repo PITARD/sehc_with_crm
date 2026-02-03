@@ -1,0 +1,21 @@
+club_nom: Sud Estuaire Handball Club
+club_email: contact@sehc.fr
+club_telephone: "02 XX XX XX XX"
+club_adresse: |-
+  Salle de sport
+  Rue du Handball
+  44000 Nantes
+facebook_url: "https://facebook.com/sehc"
+instagram_url: "https://instagram.com/sehc"
+navigation:
+  - label: Le club
+    url: /club
+  - label: Infos sportives
+    url: /infos-sportive
+  - label: Équipes
+    url: /equipes
+  - label: Albums
+    url: /albums
+  - label: Boutique
+    url: /boutique
+footer_texte: © 2025 Sud Estuaire Handball Club. Tous droits réservés.

@@ -1,0 +1,63 @@
+---
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../../keystatic.config';
+import logoNoir from '../../assets/logo_texteNoir.png';
+import MobileMenu from './MobileMenu';
+
+// Lire la configuration globale depuis Keystatic
+const reader = createReader(process.cwd(), keystaticConfig);
+const globalConfig = await reader.singletons.global_config.read();
+
+// Navigation depuis le CMS, avec fallback
+const navigation = globalConfig?.navigation || [
+  { label: 'Le club', url: '/club' },
+  { label: 'Infos sportives', url: '/infos-sportive' },
+  { label: 'Équipes', url: '/equipes' },
+  { label: 'Nous rejoindre', url: '/inscription' },
+];
+---
+
+<nav class="bg-yellow-400">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between">
+      <!-- Bouton menu mobile -->
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <MobileMenu navigation={navigation} client:load />
+      </div>
+
+      <!-- Logo et navigation desktop -->
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex shrink-0 items-center">
+          <a href="/">
+            <img class="h-12 w-auto" src={logoNoir.src} alt={globalConfig?.club_nom || 'Sud Estuaire Handball Club'} />
+          </a>
+        </div>
+        <div class="hidden sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+            {navigation.map((item) => (
+              <a
+                href={item.url}
+                class="text-black hover:bg-yellow-100 hover:text-black rounded-md px-3 py-2 text-sm font-medium"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Bouton CTA -->
+      <div class="shrink-0">
+        <a
+          href="/inscription"
+          class="relative inline-flex items-center gap-x-1.5 rounded-3xl bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-100 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-0.5 size-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+          </svg>
+          Nous rejoindre
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

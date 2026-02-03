@@ -3,7 +3,6 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import vue from '@astrojs/vue';
 import markdoc from '@astrojs/markdoc';
 import keystatic from '@keystatic/astro'
 
@@ -15,5 +14,5 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [vue(), markdoc(), keystatic(), react()]
+  integrations: [markdoc(), keystatic(), react()],
 });

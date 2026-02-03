@@ -1,0 +1,67 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../keystatic.config";
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const pageBoutique = await reader.singletons.page_boutique.read();
+---
+
+<Layout title={pageBoutique?.titre || "Boutique"}>
+  <div class="bg-white">
+    <!-- Section Hero avec titre et description -->
+    <section class="py-16 sm:py-20 bg-gradient-to-b from-yellow-50 to-white">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            {pageBoutique?.titre || "Boutique SEHC"}
+          </h1>
+          <p class="mt-6 text-lg leading-8 text-gray-600 whitespace-pre-line">
+            {
+              pageBoutique?.description ||
+                "Équipez-vous aux couleurs du club ! Découvrez notre boutique en ligne pour acheter vos maillots, équipements et goodies SEHC."
+            }
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section iframe HelloAsso pleine largeur -->
+    {
+      pageBoutique?.helloasso_url && (
+        <section class="pb-24 sm:pb-32 bg-white">
+          <div class="mx-auto w-full px-0">
+            <div class="relative overflow-hidden bg-white" style="min-height: 1000px;">
+              <iframe
+                id="helloasso-boutique-iframe"
+                src={pageBoutique.helloasso_url}
+                class="w-full"
+                style="height: 1000px; border: none;"
+                title="Boutique SEHC"
+              />
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      !pageBoutique?.helloasso_url && (
+        <section class="py-24 sm:py-32 bg-gray-50">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="text-center text-gray-600">
+              <p>
+                Configurez l'URL de la boutique HelloAsso via{" "}
+                <a
+                  href="/keystatic"
+                  class="text-yellow-600 hover:text-yellow-800 underline">
+                  Keystatic
+                </a>
+              </p>
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Layout>

@@ -1,49 +1,59 @@
 ---
+import { getCollection } from "astro:content";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../../keystatic.config';
 
+// Lire les partenaires et les trier par ordre
+const partenaires = await getCollection("partenaires");
+const partenairesSorted = partenaires.sort((a: any, b: any) => (a.data.ordre || 0) - (b.data.ordre || 0));
+
+// Lire le titre depuis home_content
+const reader = createReader(process.cwd(), keystaticConfig);
+const homeContent = await reader.singletons.home_content.read();
+
+const sectionTitre = homeContent?.section_partenaires_titre || 'Accompagné par nos partenaires de confiance.';
 ---
 
 <div class="bg-white py-24 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <h2 class="text-center text-lg/8 font-semibold text-gray-900">
-      Accompagné par nos partenaires de confiance.
+      {sectionTitre}
     </h2>
-    <div
-      class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-      <img
-        class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-        src="https://tailwindcss.com/plus-assets/img/logos/158x48/transistor-logo-gray-900.svg"
-        alt="Transistor"
-        width="158"
-        height="48"
-      />
-      <img
-        class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-        src="https://tailwindcss.com/plus-assets/img/logos/158x48/reform-logo-gray-900.svg"
-        alt="Reform"
-        width="158"
-        height="48"
-      />
-      <img
-        class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-        src="https://tailwindcss.com/plus-assets/img/logos/158x48/tuple-logo-gray-900.svg"
-        alt="Tuple"
-        width="158"
-        height="48"
-      />
-      <img
-        class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-        src="https://tailwindcss.com/plus-assets/img/logos/158x48/savvycal-logo-gray-900.svg"
-        alt="SavvyCal"
-        width="158"
-        height="48"
-      />
-      <img
-        class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-        src="https://tailwindcss.com/plus-assets/img/logos/158x48/statamic-logo-gray-900.svg"
-        alt="Statamic"
-        width="158"
-        height="48"
-      />
-    </div>
+    {partenairesSorted.length > 0 ? (
+      <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+        {partenairesSorted.map((partenaire: any) => (
+          partenaire.data.url ? (
+            <a
+              href={partenaire.data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="col-span-2 max-h-12 w-full lg:col-span-1"
+            >
+              <img
+                class="max-h-12 w-full object-contain grayscale hover:grayscale-0 transition-all"
+                src={partenaire.data.logo}
+                alt={partenaire.data.nom}
+                width="158"
+                height="48"
+              />
+            </a>
+          ) : (
+            <div class="col-span-2 max-h-12 w-full lg:col-span-1">
+              <img
+                class="max-h-12 w-full object-contain"
+                src={partenaire.data.logo}
+                alt={partenaire.data.nom}
+                width="158"
+                height="48"
+              />
+            </div>
+          )
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-gray-600 mt-10">
+        Aucun partenaire ajouté pour le moment. Ajoutez-en via l'interface Keystatic.
+      </p>
+    )}
   </div>
 </div>

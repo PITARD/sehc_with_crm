@@ -11,6 +11,7 @@
   "dependencies": {
     "@astrojs/markdoc": "^0.13.0",
     "@astrojs/react": "^4.2.1",
+    "@astrojs/vercel": "^9.0.4",
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.46",
     "@tailwindcss/vite": "^4.0.12",

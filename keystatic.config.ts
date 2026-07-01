@@ -1,10 +1,7 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: {
-    kind: 'local',
-  },
-
+  storage: { kind: 'local' },
   collections: {
     // Collection Personnes - Informations de base uniquement
     personnes: collection({
@@ -34,6 +31,21 @@ export default config({
       },
     }),
 
+    // Collection Saisons
+    saisons: collection({
+      label: 'Saisons',
+      slugField: 'nom',
+      path: 'src/content/saisons/*',
+      schema: {
+        nom: fields.slug({ name: { label: 'Saison (ex: 2025-2026)' } }),
+        current: fields.checkbox({
+          label: 'Saison actuelle',
+          defaultValue: false,
+          description: 'Cocher pour indiquer que c\'est la saison en cours',
+        }),
+      },
+    }),
+
     // Collection Équipes
     equipes: collection({
       label: 'Équipes',
@@ -46,6 +58,16 @@ export default config({
             label: 'Nom de l\'équipe',
             description: 'Ex: Sénior Masculins (le slug sera généré automatiquement)'
           }
+        }),
+        saison: fields.relationship({
+          label: 'Saison',
+          collection: 'saisons',
+          description: 'Saison à laquelle appartient cette équipe',
+        }),
+        ordre: fields.number({
+          label: 'Ordre d\'affichage',
+          defaultValue: 0,
+          description: 'Plus le nombre est petit, plus l\'équipe apparaît en premier',
         }),
         niveau: fields.text( { label: 'Niveau' } ),
         lien_classement: fields.url({
@@ -249,7 +271,6 @@ export default config({
         }),
       },
     }),
-
   },
 
   singletons: {
@@ -434,9 +455,9 @@ export default config({
               description: 'Ex: CO-PRÉSIDENT, TRÉSORIÈRE, SECRÉTAIRE, etc.'
             }),
             email: fields.text({
-          label: 'email',
-          defaultValue: 'contact@sehc.fr',
-        }),
+              label: 'email',
+              defaultValue: 'contact@sehc.fr',
+            }),
           }),
           {
             label: 'Le Bureau',

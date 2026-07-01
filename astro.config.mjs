@@ -10,12 +10,22 @@ import react from '@astrojs/react';
 
 import vercel from '@astrojs/vercel';
 
+import sitemap from '@astrojs/sitemap';
+
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://sehc.fr',
+  output: 'server',
   vite: {
     plugins: [tailwindcss()]
   },
-
-  integrations: [markdoc(), keystatic(), react()],
+  integrations: [
+    markdoc(),
+    keystatic(),
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/keystatic'),
+    }),
+  ],
   adapter: vercel(),
 });

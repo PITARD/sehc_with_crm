@@ -6,23 +6,52 @@ import Footer from "../components/sections/Footer.astro";
 
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
 }
 
-const { title } = Astro.props;
+const SITE_NAME = 'Sud Estuaire Handball Club';
+const DEFAULT_DESCRIPTION = 'Club de handball de Saint-Brévin-les-Pins et Corsept. Toutes les catégories, des Baby Hand aux Seniors.';
+const DEFAULT_OG_IMAGE = '/images/equipes/senior-masculin/photo_equipe.jpeg';
+
+const { title, description = DEFAULT_DESCRIPTION, image = DEFAULT_OG_IMAGE } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://sehc.fr');
+const fullTitle = `${title} | ${SITE_NAME}`;
 ---
 
 <!doctype html>
-<html lang="en" class="h-full" data-theme="light">
+<html lang="fr" class="h-full" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Primary SEO -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={new URL(image, canonicalURL)} />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, canonicalURL)} />
   </head>
   <body
-    class="h-full flex flex-col overflow-x-hidden bg-default
+    class="min-h-screen flex flex-col overflow-x-hidden bg-default
 		text-default text-base selection:bg-secondary">
     <Header />
     <section class="flex-grow">

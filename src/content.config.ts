@@ -13,12 +13,23 @@ const personnes = defineCollection({
   }),
 });
 
+// Collection Saisons
+const saisons = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/saisons' }),
+  schema: z.object({
+    nom: z.string(),
+    current: z.boolean().default(false),
+  }),
+});
+
 // Collection Équipes
 const equipes = defineCollection({
   loader: glob({ pattern: '**/*.mdoc', base: './src/content/equipes' }),
   schema: z.object({
     nom: z.string(),
     niveau: z.string(),
+    saison: z.string().optional(),
+    ordre: z.number().default(0),
     lien_classement: z.string().optional(),
     description: z.string().optional(),
     coaches: z.array(z.object({
@@ -90,6 +101,7 @@ const albums = defineCollection({
 export const collections = {
   personnes,
   equipes,
+  saisons,
   stats,
   partenaires,
   salles,

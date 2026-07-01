@@ -7,16 +7,16 @@ import { getCollection } from 'astro:content';
 const reader = createReader(process.cwd(), keystaticConfig);
 const pageInfos = await reader.singletons.page_infos_sportive.read();
 
-// Récupérer les équipes avec leurs horaires
+// Récupérer les équipes avec leurs horaires — saison courante uniquement, triées par ordre
+const saisons = await getCollection('saisons');
+const currentSaison = saisons.find((s: any) => s.data.current);
 const equipes = await getCollection('equipes');
-const equipesSorted = equipes.sort((a: any, b: any) => {
-  const niveauOrder = ['senior', 'junior', 'cadet', 'minime', 'benjamin', 'poussin'];
-  return niveauOrder.indexOf(a.data.niveau) - niveauOrder.indexOf(b.data.niveau);
-});
+const equipesSorted = equipes
+  .filter((e: any) => e.data.saison === currentSaison?.id)
+  .sort((a: any, b: any) => (a.data.ordre ?? 0) - (b.data.ordre ?? 0));
 
 // Récupérer les salles
 const salles = await getCollection('salles');
-console.log(salles.length);
 
 const sallesSorted = salles.sort((a: any, b: any) => (a.data.ordre || 0) - (b.data.ordre || 0));
 
@@ -27,10 +27,10 @@ const jourOrder: Record<string, number> = {
 };
 ---
 
-<Layout title={pageInfos?.entete_titre || 'Informations Sportives'}>
+<Layout title={pageInfos?.entete_titre || 'Informations Sportives'} description="Retrouvez les plannings des matchs, les horaires d'entraînements et l'accès à nos gymnases.">
   <div class="bg-white">
     <!-- Tabs de navigation -->
-    <div class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <div class="sticky top-16 z-40 bg-white border-b border-gray-200 shadow-sm">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <nav class="flex space-x-8 overflow-x-auto" aria-label="Sections">
           <a href="#planning" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
@@ -47,7 +47,7 @@ const jourOrder: Record<string, number> = {
     </div>
 
     <!-- Section 1: Planning Matchs & Tâches -->
-    <section id="planning" class="py-24 sm:py-32 bg-yellow-50 scroll-mt-16">
+    <section id="planning" class="py-24 sm:py-32 bg-yellow-50 scroll-mt-28">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
@@ -109,7 +109,7 @@ const jourOrder: Record<string, number> = {
     </section>
 
     <!-- Section 2: Horaires Entraînements -->
-    <section id="entrainements" class="py-24 sm:py-32 bg-white scroll-mt-16">
+    <section id="entrainements" class="py-24 sm:py-32 bg-white scroll-mt-28">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
@@ -190,7 +190,7 @@ const jourOrder: Record<string, number> = {
     </section>
 
     <!-- Section 3: Salles/Gymnases -->
-    <section id="salles" class="py-24 sm:py-32 bg-gray-50 scroll-mt-16">
+    <section id="salles" class="py-24 sm:py-32 bg-gray-50 scroll-mt-28">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">

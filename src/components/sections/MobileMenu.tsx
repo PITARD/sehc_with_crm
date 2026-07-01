@@ -18,7 +18,7 @@ export default function MobileMenu({ navigation }: MobileMenuProps) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+        className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-900 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black"
         aria-expanded={isOpen}
       >
         <span className="absolute -inset-0.5" />

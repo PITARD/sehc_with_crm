@@ -7,7 +7,7 @@ const reader = createReader(process.cwd(), keystaticConfig);
 const pageBoutique = await reader.singletons.page_boutique.read();
 ---
 
-<Layout title={pageBoutique?.titre || "Boutique"}>
+<Layout title={pageBoutique?.titre || "Boutique"} description={pageBoutique?.description || "Équipez-vous aux couleurs du SEHC — maillots, équipements et goodies du Sud Estuaire Handball Club."}>
   <div class="bg-white">
     <!-- Section Hero avec titre et description -->
     <section class="py-16 sm:py-20 bg-gradient-to-b from-yellow-50 to-white">

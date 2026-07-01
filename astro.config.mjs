@@ -19,7 +19,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     build: {
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 3000,
     },
   },
   integrations: [

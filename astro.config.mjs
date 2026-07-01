@@ -17,7 +17,10 @@ export default defineConfig({
   site: 'https://sehc.fr',
   output: 'server',
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    build: {
+      chunkSizeWarningLimit: 1000,
+    },
   },
   integrations: [
     markdoc(),

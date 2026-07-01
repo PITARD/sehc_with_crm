@@ -6,6 +6,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Only protect /keystatic routes
   if (pathname.startsWith('/keystatic')) {
+    if (import.meta.env.SKIP_KEYSTATIC) {
+      return new Response(null, { status: 302, headers: { Location: '/' } });
+    }
     const authHeader = context.request.headers.get('Authorization');
 
     // Get credentials from environment variables

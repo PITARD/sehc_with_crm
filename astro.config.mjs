@@ -12,7 +12,7 @@ import vercel from '@astrojs/vercel';
 
 import sitemap from '@astrojs/sitemap';
 
-const isDev = process.env.NODE_ENV !== 'production';
+const isKeystatic = !process.env.SKIP_KEYSTATIC;
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,7 +26,7 @@ export default defineConfig({
   },
   integrations: [
     markdoc(),
-    ...(isDev ? [keystatic()] : []),
+    ...(isKeystatic ? [keystatic()] : []),
     react(),
     sitemap({
       filter: (page) => !page.includes('/keystatic'),

@@ -12,6 +12,8 @@ import vercel from '@astrojs/vercel';
 
 import sitemap from '@astrojs/sitemap';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sehc.fr',
@@ -24,7 +26,7 @@ export default defineConfig({
   },
   integrations: [
     markdoc(),
-    keystatic(),
+    ...(isDev ? [keystatic()] : []),
     react(),
     sitemap({
       filter: (page) => !page.includes('/keystatic'),

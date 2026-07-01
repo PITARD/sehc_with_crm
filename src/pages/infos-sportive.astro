@@ -1,11 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../keystatic.config';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
-const reader = createReader(process.cwd(), keystaticConfig);
-const pageInfos = await reader.singletons.page_infos_sportive.read();
+const pageInfos = (await getEntry('configs', 'page-infos-sportive'))?.data as any;
 
 // Récupérer les équipes avec leurs horaires — saison courante uniquement, triées par ordre
 const saisons = await getCollection('saisons');

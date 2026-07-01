@@ -1,10 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../keystatic.config';
+import { getEntry } from 'astro:content';
 
-const reader = createReader(process.cwd(), keystaticConfig);
-const globalConfig = await reader.singletons.global_config.read();
+const globalConfig = (await getEntry('configs', 'global'))?.data as any;
 
 const clubNom = globalConfig?.club_nom || 'Sud Estuaire Handball Club';
 const clubEmail = globalConfig?.club_email || '';

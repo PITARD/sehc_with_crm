@@ -1,9 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../../keystatic.config';
-
+import { getCollection, getEntry } from 'astro:content';
 // Récupérer toutes les équipes et saisons
 const equipes = await getCollection('equipes');
 const saisons = await getCollection('saisons');
@@ -11,8 +8,7 @@ const saisons = await getCollection('saisons');
 // Récupérer les personnes et la config pour les arbitres
 const personnes = await getCollection('personnes');
 
-const reader = createReader(process.cwd(), keystaticConfig);
-const pageClub = await reader.singletons.page_club.read();
+const pageClub = (await getEntry('configs', 'page-club'))?.data as any;
 const arbitres = pageClub?.arbitres || [];
 
 // Trier les saisons (plus récente en premier) et identifier la courante

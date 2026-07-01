@@ -98,6 +98,11 @@ const albums = defineCollection({
   }),
 });
 
+// Collection Configs (singletons Keystatic)
+const configs = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/config' }),
+});
+
 export const collections = {
   personnes,
   equipes,
@@ -106,4 +111,5 @@ export const collections = {
   partenaires,
   salles,
   albums,
+  configs,
 };

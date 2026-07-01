@@ -1,10 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { createReader } from "@keystatic/core/reader";
-import keystaticConfig from "../../keystatic.config";
+import { getEntry } from "astro:content";
 
-const reader = createReader(process.cwd(), keystaticConfig);
-const pageBoutique = await reader.singletons.page_boutique.read();
+const pageBoutique = (await getEntry('configs', 'page-boutique'))?.data as any;
 ---
 
 <Layout title={pageBoutique?.titre || "Boutique"} description={pageBoutique?.description || "Équipez-vous aux couleurs du SEHC — maillots, équipements et goodies du Sud Estuaire Handball Club."}>

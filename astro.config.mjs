@@ -30,7 +30,5 @@ export default defineConfig({
       filter: (page) => !page.includes('/keystatic'),
     }),
   ],
-  adapter: vercel({
-    includeFiles: ['src/content/**/*'],
-  }),
+  adapter: vercel(),
 });

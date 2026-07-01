@@ -1,11 +1,8 @@
 ---
-import { createReader } from "@keystatic/core/reader";
-import keystaticConfig from "../../../keystatic.config";
+import { getEntry } from "astro:content";
 import logoNoir from "../../assets/logo_texteNoir.png";
 
-// Lire le contenu de la page d'accueil depuis Keystatic
-const reader = createReader(process.cwd(), keystaticConfig);
-const homeContent = await reader.singletons.home_content.read();
+const homeContent = (await getEntry('configs', 'home'))?.data as any;
 
 // Images de la galerie (avec fallback sur Supabase)
 const galerieImages =

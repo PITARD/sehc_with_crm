@@ -1,15 +1,11 @@
 ---
-import { getCollection } from "astro:content";
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../../keystatic.config';
+import { getCollection, getEntry } from "astro:content";
 
 // Lire les partenaires et les trier par ordre
 const partenaires = await getCollection("partenaires");
 const partenairesSorted = partenaires.sort((a: any, b: any) => (a.data.ordre || 0) - (b.data.ordre || 0));
 
-// Lire le titre depuis home_content
-const reader = createReader(process.cwd(), keystaticConfig);
-const homeContent = await reader.singletons.home_content.read();
+const homeContent = (await getEntry('configs', 'home'))?.data as any;
 
 const sectionTitre = homeContent?.section_partenaires_titre || 'Accompagné par nos partenaires de confiance.';
 ---

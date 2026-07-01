@@ -1,15 +1,11 @@
 ---
-import { getCollection } from "astro:content";
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../../../keystatic.config';
+import { getCollection, getEntry } from "astro:content";
 
 // Lire les stats et les trier par ordre
 const stats = await getCollection("stats");
 const statsSorted = stats.sort((a: any, b: any) => (a.data.ordre || 0) - (b.data.ordre || 0));
 
-// Lire les titres depuis home_content
-const reader = createReader(process.cwd(), keystaticConfig);
-const homeContent = await reader.singletons.home_content.read();
+const homeContent = (await getEntry('configs', 'home'))?.data as any;
 
 const sectionTitre = homeContent?.section_stats_titre || 'Nos Performances';
 const sectionDescription = homeContent?.section_stats_description || 'Découvrez les statistiques du club !';

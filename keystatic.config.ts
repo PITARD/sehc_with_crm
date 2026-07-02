@@ -598,6 +598,12 @@ export default config({
               ],
               defaultValue: 'document',
             }),
+            fichier: fields.file({
+              label: 'Fichier à télécharger',
+              description: 'Fichier PDF ou autre document à joindre',
+              directory: 'public/documents/inscription',
+              publicPath: '/documents/inscription/',
+            }),
           }),
           {
             label: 'Liste des documents',

@@ -10,13 +10,21 @@ interface Props {
   image?: string;
 }
 
-const SITE_NAME = 'Sud Estuaire Handball Club';
-const DEFAULT_DESCRIPTION = 'Club de handball de Saint-Brévin-les-Pins et Corsept. Toutes les catégories, des Baby Hand aux Seniors.';
-const DEFAULT_OG_IMAGE = '/images/equipes/senior-masculin/photo_equipe.jpeg';
+const SITE_NAME = "Sud Estuaire Handball Club";
+const DEFAULT_DESCRIPTION =
+  "Club de handball de Saint-Brévin-les-Pins et Corsept. Toutes les catégories, des Baby Hand aux Seniors.";
+const DEFAULT_OG_IMAGE = "/images/equipes/senior-masculin/photo_equipe.jpeg";
 
-const { title, description = DEFAULT_DESCRIPTION, image = DEFAULT_OG_IMAGE } = Astro.props;
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  image = DEFAULT_OG_IMAGE,
+} = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://sehc.fr');
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://sehc.fr",
+);
 const fullTitle = `${title} | ${SITE_NAME}`;
 ---
 
@@ -28,7 +36,7 @@ const fullTitle = `${title} | ${SITE_NAME}`;
     <meta name="generator" content={Astro.generator} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 
     <!-- Primary SEO -->
     <title>{fullTitle}</title>

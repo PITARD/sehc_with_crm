@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { CalendarIcon, ClockIcon, MapPinIcon, MapIcon } from '@heroicons/react/24/outline';
 
 const pageInfos = (await getEntry('configs', 'page-infos-sportive'))?.data as any;
 
@@ -143,9 +144,7 @@ const jourOrder: Record<string, number> = {
                           return (
                             <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
                               <div class="flex items-center gap-2 mb-2">
-                                <svg class="h-5 w-5 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
+                                <CalendarIcon className="h-5 w-5 text-yellow-600" />
                                 <span class="font-bold text-gray-900 capitalize">
                                   {entrainement.jour}
                                 </span>
@@ -155,10 +154,7 @@ const jourOrder: Record<string, number> = {
                               </p>
                               {salle && (
                                 <p class="text-sm text-gray-500 flex items-center gap-1">
-                                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                  </svg>
+                                  <MapPinIcon className="h-4 w-4" />
                                   {salle.data.nom}
                                 </p>
                               )}
@@ -221,10 +217,7 @@ const jourOrder: Record<string, number> = {
 
                     {salle.data.adresse && (
                       <div class="flex items-start gap-2 mb-4">
-                        <svg class="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                        <MapPinIcon className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
                         <p class="text-gray-600 whitespace-pre-line">{salle.data.adresse}</p>
                       </div>
                     )}
@@ -236,9 +229,7 @@ const jourOrder: Record<string, number> = {
                         rel="noopener noreferrer"
                         class="inline-flex items-center gap-2 rounded-md bg-yellow-600 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-500 transition-colors"
                       >
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                        </svg>
+                        <MapIcon className="h-4 w-4" />
                         Voir la notice de table
                       </a>
                     )}

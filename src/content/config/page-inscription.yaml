@@ -20,8 +20,7 @@ hero_description: >-
   joindre par téléphone au 0699490277 ou par mail à l'adresse contact@sehc.fr
 hero_image: /images/inscription/hero_image.png
 bouton_inscription_texte: S'inscrire maintenant
-bouton_inscription_url: >-
-  https://docs.google.com/forms/d/e/1FAIpQLScqC1WTLBMOUHbXdRvh_8Qoc9tpbe8kRMx0TQBDmPC1YHagzg/viewform?usp=sharing&ouid=114220943664102913056
+bouton_inscription_url: https://forms.gle/LwpRpEQjJFNG57Wc6
 section_docs_titre: Documents nécessaires
 documents: []
 section_formulaire_titre: Formulaire d'inscription

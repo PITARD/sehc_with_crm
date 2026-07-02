@@ -12,8 +12,6 @@ import vercel from '@astrojs/vercel';
 
 import sitemap from '@astrojs/sitemap';
 
-const isKeystatic = !process.env.SKIP_KEYSTATIC;
-
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sehc.fr',
@@ -26,7 +24,7 @@ export default defineConfig({
   },
   integrations: [
     markdoc(),
-    ...(isKeystatic ? [keystatic()] : []),
+    keystatic(),
     react(),
     sitemap({
       filter: (page) => !page.includes('/keystatic'),

@@ -1,7 +1,10 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: { kind: 'local' },
+  storage: {
+  kind: 'github',
+  repo: 'PITARD/sehc_with_crm',
+},
   collections: {
     // Collection Personnes - Informations de base uniquement
     personnes: collection({

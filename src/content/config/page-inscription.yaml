@@ -22,7 +22,9 @@ hero_image: /images/inscription/hero_image.png
 bouton_inscription_texte: S'inscrire maintenant
 bouton_inscription_url: https://forms.gle/LwpRpEQjJFNG57Wc6
 section_docs_titre: Documents nécessaires
-documents: []
+documents:
+  - nom: Certificat Médical
+    icone: medical
 section_formulaire_titre: Formulaire d'inscription
 helloasso_url: >-
   https://www.helloasso.com/associations/sud-estuaire-handball-club/adhesions/adhesion-pour-la-saison-2026-2027/widget

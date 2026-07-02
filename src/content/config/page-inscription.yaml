@@ -25,6 +25,7 @@ section_docs_titre: Documents nécessaires
 documents:
   - nom: Certificat Médical
     icone: medical
+    fichier: /documents/inscription/documents/0/fichier.pdf
 section_formulaire_titre: Formulaire d'inscription
 helloasso_url: >-
   https://www.helloasso.com/associations/sud-estuaire-handball-club/adhesions/adhesion-pour-la-saison-2026-2027/widget

@@ -6,13 +6,10 @@ import { ArrowTopRightOnSquareIcon, PhotoIcon, CalendarIcon } from '@heroicons/r
 // Récupérer tous les albums
 const albums = await getCollection('albums');
 
-// Trier par ordre puis par date (plus récent en premier)
-const albumsSorted = albums.sort((a: any, b: any) => {
-  if (a.data.ordre !== b.data.ordre) {
-    return (a.data.ordre || 0) - (b.data.ordre || 0);
-  }
-  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
-});
+// Trier par date (plus récent en premier)
+const albumsSorted = albums.sort((a: any, b: any) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
 
 // Formater la date
 const formatDate = (date: Date) => {

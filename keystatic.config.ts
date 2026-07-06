@@ -190,11 +190,9 @@ export default config({
           label: 'Date',
           description: 'Date de l\'événement ou de l\'album'
         }),
-        cover_image: fields.image({
+        cover_image: fields.text({
           label: 'Image de couverture',
-          directory: 'public/images/albums',
-          publicPath: '/images/albums/',
-          description: 'Image de couverture de l\'album'
+          description: 'Chemin vers l\'image (ex: /images/albums/mon-album.jpg)',
         }),
         lien_externe: fields.url({
           label: 'Lien vers l\'album',

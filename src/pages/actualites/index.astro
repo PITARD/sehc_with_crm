@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { CalendarIcon, NewspaperIcon } from '@heroicons/react/24/outline';
+
+const actualites = await getCollection('actualites');
+
+const actualitesSorted = actualites.sort((a: any, b: any) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(new Date(date));
+};
+---
+
+<Layout title="Actualités" description="Toutes les actualités du Sud Estuaire Handball Club — résultats, événements, annonces et vie du club.">
+  <div class="bg-white">
+    <section class="py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mx-auto max-w-2xl text-center">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            Actualités
+          </h1>
+          <p class="mt-6 text-lg leading-8 text-gray-600">
+            Toutes les nouvelles du club
+          </p>
+        </div>
+
+        <!-- Articles Grid -->
+        {actualitesSorted.length > 0 ? (
+          <ul class="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {actualitesSorted.map((article: any) => (
+              <li>
+                <a href={`/actualites/${article.id}`} class="group block">
+                  {article.data.cover ? (
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg">
+                      <img
+                        class="aspect-[16/10] w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        src={article.data.cover}
+                        alt={article.data.titre}
+                      />
+                    </div>
+                  ) : (
+                    <div class="aspect-[16/10] w-full rounded-2xl bg-gray-200 flex items-center justify-center shadow-lg">
+                      <NewspaperIcon className="h-20 w-20 text-gray-400" />
+                    </div>
+                  )}
+                  <div class="mt-6">
+                    <h3 class="text-lg font-semibold leading-8 tracking-tight text-gray-900 group-hover:text-yellow-600 transition-colors">
+                      {article.data.titre}
+                    </h3>
+                    <p class="text-base leading-7 text-gray-600 flex items-center gap-2 mt-2">
+                      <CalendarIcon className="h-4 w-4 text-yellow-600" />
+                      {formatDate(article.data.date)}
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="mt-20 text-center text-gray-600">
+            <p>Aucune actualité pour le moment.</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </div>
+</Layout>

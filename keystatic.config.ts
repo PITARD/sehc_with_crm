@@ -207,6 +207,31 @@ export default config({
       },
     }),
 
+    // Collection Actualités
+    actualites: collection({
+      label: 'Actualités',
+      slugField: 'titre',
+      path: 'src/content/actualites/*',
+      format: { contentField: 'contenu' },
+      schema: {
+        titre: fields.slug({ name: { label: 'Titre de l\'article' } }),
+        date: fields.date({
+          label: 'Date de publication',
+          description: 'Date de l\'article (plus récent affiché en premier)',
+        }),
+        cover: fields.image({
+          label: 'Image de couverture',
+          directory: 'public/images/actualites',
+          publicPath: '/images/actualites/',
+          description: 'Image principale de l\'article',
+        }),
+        contenu: fields.markdoc({
+          label: 'Contenu',
+          extension: 'mdoc',
+        }),
+      },
+    }),
+
     // Collection Stats (existante, améliorée)
     stats: collection({
       label: 'Statistiques',

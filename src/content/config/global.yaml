@@ -16,6 +16,8 @@ navigation:
     url: /equipes
   - label: Albums
     url: /albums
+  - label: Actualités
+    url: /actualites
   - label: Boutique
     url: /boutique
 footer_texte: © 2025 Sud Estuaire Handball Club. Tous droits réservés.

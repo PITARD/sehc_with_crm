@@ -98,6 +98,16 @@ const albums = defineCollection({
   }),
 });
 
+// Collection Actualités
+const actualites = defineCollection({
+  loader: glob({ pattern: '**/*.mdoc', base: './src/content/actualites' }),
+  schema: z.object({
+    titre: z.string(),
+    date: z.coerce.date(),
+    cover: z.string().optional(),
+  }),
+});
+
 // Collection Configs (singletons Keystatic)
 const configs = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/config' }),
@@ -111,5 +121,6 @@ export const collections = {
   partenaires,
   salles,
   albums,
+  actualites,
   configs,
 };

@@ -41,13 +41,13 @@ const formatDate = (date: Date) => {
                   {article.data.cover ? (
                     <div class="relative overflow-hidden rounded-2xl shadow-lg">
                       <img
-                        class="aspect-[16/10] w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        class="aspect-[4/5] w-full object-cover group-hover:scale-105 transition-transform duration-300"
                         src={article.data.cover}
                         alt={article.data.titre}
                       />
                     </div>
                   ) : (
-                    <div class="aspect-[16/10] w-full rounded-2xl bg-gray-200 flex items-center justify-center shadow-lg">
+                    <div class="aspect-[4/5] w-full rounded-2xl bg-gray-200 flex items-center justify-center shadow-lg">
                       <NewspaperIcon className="h-20 w-20 text-gray-400" />
                     </div>
                   )}

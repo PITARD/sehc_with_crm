@@ -46,7 +46,7 @@ const formatDate = (date: Date) => {
                     <div class="relative overflow-hidden rounded-2xl shadow-lg">
                       <img
                         class="aspect-[16/10] w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        src={`/images/albums/${album.data.cover_image}`}
+                        src={`/images/albums/${album.id}/${album.data.cover_image}`}
                         alt={album.data.nom}
                       />
                       <!-- Overlay with external link icon -->
